@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+  <head><title>auth</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}"></head>
+  <body>
+    <div id = "auth_box_holder">
+      <div id = "tab_holder">
+        <button class = "tab selected selected-left" id = "login" onclick = "change_tab()">Login</button>
+        <button class = "tab" id = "sign" onclick = "change_tab()">Sign Up</button>
+      </div>
+      <div id = "content_holder">
+          <div>
+          <label class = "Label_text">username:</label><br>
+          <input type="text" name="username" id = "username"><br>
+          <label class = "Label_text" >password:</label><br>
+          <input type="password" name="password" id = "password"><br>
+          <label class = "error_text"id = "error_text" ></label>
+          </div>
+          <button class = "subBtn" type = "submit" onclick = "submit()">Submit</button>
+
+      </div>
+    </div>
+  </body>
+  <script>
+    
+    document.getElementById("error_text").innerHTML = '{{err}}'
+  </script>
+  <script src="{{ url_for('static', filename='js/common_functions.js') }}"></script>
+  <script  src="{{ url_for('static', filename='js/auth.js') }}"></script>
+</html>

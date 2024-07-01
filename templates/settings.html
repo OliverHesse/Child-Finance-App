@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+  <head><title>User Details</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/settings.css') }}"></head>
+
+
+  <body>
+    <div style="width:100%;margin-bottom:30px;">
+      <button onclick="back()" class="base_btn" style="width:50px;height:30px;font-size:1.2rem;">Back</button>
+    </div>
+    <div>User Details</div>
+    <!--change to a textbox -->
+    <div id="detailsHolder">
+      <div>
+        <label for = "username"class="details_label" id="UsernameLabel">Username:</label>
+        <input type="text" id="usernameField"></input>
+      </div>
+    
+    <div class="details_label" id = "DateLabel">join date:{{user_details[1]}}</div>
+    {% if session["UserType"]=="Child" %}
+    <div class="details_label" id="ParentLabel">Parent Name:{{user_details[2]}}</div>
+    
+    
+    <div class="details_label" id = "TotalLabel">account Total:£{{user_details[3]}}</div>
+    <div>*total before subtracting pending requests/transactions</div>
+    {% endif %}
+
+    </div>
+    <div class = "btn Holder">
+      <button class="base_btn" onclick="save_changes()"id="saveChanges">Save Changes</button>
+      <button class="base_btn" onclick="restore_default()"id="restoreDefault">Restore Default</button>
+      <button class="base_btn" onclick="open_change_password_modal()"id="openChangePasswordModal">Change Password</button>
+    </div>
+    <!--for changing password-->
+    <div class="modal_background">
+      <div class="modal_body" id="changePasswordModal">
+        <div style = "width:100%;display:flex; justify-content:right;"><button class="close-modal base_btn" onclick="close_change_password_modal()">Close</button></div>
+        <div  style="font-size:2rem; margin-bottom:50px;">Change Password</div>
+        <label style="font-size:2rem;"for="passwordField1">Enter new password</label>
+        <input type="password" id="passwordField1" class = "password_field"></input>
+        <label style="font-size:2rem;" for="passwordField2">Confirm new password</label>
+        <input type="password" id="passwordField2" class = "password_field"></input>
+        <button onclick="change_passwor()"id="changePassword" class="base_btn">Reset Password</button>
+      </div>
+    </div>
+    
+  </body>
+  <script>
+    default_data = {{user_details|safe}}
+    const usernameField = document.getElementById("usernameField")
+    usernameField.value = default_data[0]
+  </script>
+  <script src="{{ url_for('static', filename='js/common_functions.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/settings.js') }}"></script>
+</html>

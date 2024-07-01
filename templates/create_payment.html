@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>create payment</title>
+    <link href="{{ url_for('static', filename='css/create_payment.css') }}" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+    <div class="base_container"id="TitleSegment">Create NEW Payment</div>
+    <div class="base_container"id="ContentSegment1">
+      <div id="FieldColumn1">
+        <div>
+          <div class ="field_label">Amount:</div> 
+          <label class ="field_label"for="Amount">£</label>
+          <input style="width:300px;height:40px;" class="base_input"type="text" id ="Amount"name="Amount"></input>
+        </div>
+        <div style="margin-top:50px;">
+          <div class = "field_label">Frequency</div>
+          <input style="width:200px;height:40px;" class="base_input"type="text" id ="Frequency"name="Frequency">
+          <label class="field_label"for="Frequency">Days</label>
+        </div>
+      </div>
+      <div id="FieldColumn2">
+        <div>
+          <div class="field_label">Payment Name:</div>
+          <input style="width:200px;height:40px;" class="base_input"type="text" id ="paymentName"name="paymentName">
+
+        </div>
+        <div>
+          <div class="field_label">Child</div>
+          <select style="width:300px;height:46px;" id="child"name="child" class="base_input">
+            {% for child in children %}
+              <option value="{{child[0]}}">{{child[1]}}</option>
+            {% endfor %}
+          </select>
+
+        </div>
+        <div style="margin-top: 50px;">
+          <div class="field_label">Account</div>
+          <select style="width:300px;height:46px;" id="account"name="account" class="base_input">
+            {% for account in accounts %}
+              <option value="{{account[0]}}">{{account[1]}}</option>
+            {% endfor %}
+          </select>
+
+        </div>
+      </div>
+    </div>    
+    <div class="base_container"id="ContentSegment2">
+      <div class="field_label">Notes</div>
+      <textarea style="width:300px;height:200px;resize:none;"class="base_input" id="notes"></textarea>
+    </div>
+    <div style="margin-top:20px;" class="base_container" id="buttonSegment">
+      <button onclick="SubmitData()"class="base_btn">Create Payment</button>
+    
+    </div>
+  </body>
+  <script src="{{ url_for('static', filename='js/common_functions.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/create_payment.js') }}"></script>
+</html>

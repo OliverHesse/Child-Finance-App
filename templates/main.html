@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head><title>main</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"></head>
+
+
+  <body>
+    <div id="button_div" class="content_div">
+      <div>
+        <div class="button_holder">
+          <button class="form_change_btn" onclick="view_actions()">View Actions</button>
+          <hr class="underline"></hr>
+        </div>
+      
+        <div class="button_holder">
+          <button class="form_change_btn" onclick="manage()">Manage</button>
+          <hr class="underline"></hr>
+        </div>
+   
+        <div class="button_holder">
+          <button class="form_change_btn" onclick="settings()">Settings</button>
+          <hr class="underline"></hr>
+        </div>
+      </div>
+    </div>
+    <div id="data_div" class="content_div">
+      {% if user_type == "Parent" %}
+      <div>You Still owe: £{{data["owed"]}}</div>
+      {% endif %}
+      {% if user_type == "Child" %}
+      <div>You are Owed: £{{data["owed"]}}</div>
+      <div>You Have: £{{data["pending"]}} pending requests</div>
+      <div>Total: £ {{data["total"]}}</div>
+      {% endif %}
+    </div>
+  </body>
+  <script src="{{ url_for('static', filename='js/common_functions.js') }}"></script>
+  <script   src="{{ url_for('static', filename='js/main.js') }}"></script>
+</html>

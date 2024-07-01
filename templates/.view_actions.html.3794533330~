@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+  <head>
+  <title>View Actions</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/view_actions.css') }}">
+  </head>
+  <body>
+    <div id = "content_holder">
+      <div id = "selector_holder">
+        <div>
+          <button id="request_tab" class="tab_holder">Requests</div>
+          <div id="transaction_tab" class="tab_holder">Transactions</div>
+        </div>
+        <hr class="underline"></hr>
+      </div>
+    </div>
+  </body>
+</html>

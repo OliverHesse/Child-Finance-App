@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>create child</title>
+    <link href="{{ url_for('static', filename='css/create_child.css') }}" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+
+    <h1>CREATE NEW ACCOUNT</h1>
+    <div style="
+    margin-top: 40px;
+  ">
+    <label for="name" style="
+    font-size: 1.3rem;
+    font-weight: bold;
+  ">Account Name</label><br>
+    <input id = "account_name"type="text" style="
+    border-radius: 20px;
+    border-style: solid;
+    border-color: black;
+    width: 350px;
+    height: 40px;
+    font-size:1.3rem;
+  "></div>
+    <div style="
+    margin-top: 40px;
+    ">
+      <label for="Details" style="
+          font-size: 1.3rem;
+          font-weight: bold;
+        ">Details</label><br>
+      <textarea name="Details" id="Details" style="    
+        border-radius: 20px;
+        border-style: solid;
+        border-color: black;
+        width: 350px;
+        height: 200px;
+        resize:none;
+        font-size:1.3rem;"></textarea>
+    </div>
+    <div style="
+    margin-top: 40px;
+  ">
+    <label for="Interest" style="
+    font-size: 1.3rem;
+    font-weight: bold;
+  ">Interest Rate</label><br>
+    <input id="Interest" type="text" style="
+    border-radius: 20px;
+    border-style: solid;
+    border-color: black;
+    width: 350px;
+    height: 40px;
+      font-size:1.3rem;
+  ">%</div>
+    <div style="font-size:1.1rem;color:red;">
+      {{err|safe}}
+    </div>
+    <button id = "create_child_btn" onclick="SubmitData()">
+      Create Account
+    </button>
+
+  </body>
+  <script src="{{ url_for('static', filename='js/common_functions.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/create_account.js') }}"></script>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>create child</title>
+    <link href="{{ url_for('static', filename='css/create_child.css') }}" rel="stylesheet" type="text/css" />
+  </head>
+
+  <body>
+
+    <h1>CREATE NEW CHILD ACCOUNT</h1>
+    <div style="
+    margin-top: 40px;
+  ">
+    <label for="name" style="
+    font-size: 1.3rem;
+    font-weight: bold;
+  ">Child Name</label><br>
+    <input id = "username"type="text" style="
+    border-radius: 20px;
+    border-style: solid;
+    border-color: black;
+    width: 350px;
+    height: 40px;
+    font-size:1.3rem;
+  "></div>
+    <div style="
+    margin-top: 40px;
+  ">
+    <label for="password" style="
+    font-size: 1.3rem;
+    font-weight: bold;
+  ">Child Password</label><br>
+    <input id="password" type="password" style="
+    border-radius: 20px;
+    border-style: solid;
+    border-color: black;
+    width: 350px;
+    height: 40px;
+      font-size:1.3rem;
+  "></div>
+    <div style="font-size:1.1rem;color:red;">
+      {{err|safe}}
+    </div>
+    <button id = "create_child_btn" onclick="SubmitData()">
+      Create Child
+    </button>
+
+  </body>
+  <script src="{{ url_for('static', filename='js/common_functions.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/create_child.js') }}"></script>
+</html>

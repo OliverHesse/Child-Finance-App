@@ -1,0 +1,5 @@
+UserData,id:int,Username:str,Date:str,HashedPassword:str,Salt:str,type:str,ParentId:int,Total:float
+Transactions,id:int,SenderId:int,DestId:int,Type:str,Status:str,Date:str,Amount:float,Notes:str
+AccountData,id:int,UserId:int,AccountName:str,Date:str,Notes:str,Interest:float,LastApplied:str
+ChildAccount,id:int,UserId:int,AccountId:int,Total:float
+Payment,id:int,paymentName:str,UserId:int,AccountId:int,Amount:float,Frequency:int,Notes:str,Type:str

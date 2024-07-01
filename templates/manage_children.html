@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>replit</title>
+    <link href="{{ url_for('static', filename='css/manage_child.css') }}" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <h1>Manage Child Details</h1>
+    <div style="display: flex;;flex-direction:column;gap:30px;">
+      <div id="child_name">
+        <label class = "manage_label" for="child_name_input">Child Name:</label>
+        <input type="text" name = "child_name_input" id = "child_name_input">
+      </div>
+      <div class = "manage_label" id="child_date">Date:</div>
+      <div class = "manage_label" id="child_parent">Parent:</div>
+      <div class = "manage_label" id="child_amount">Amount: £</div>
+    </body>
+    <div class="BtnContainer">
+      <button id = "SaveChanges">Save Changes</button>
+      <button id = "ResetDetails">Reset Details</button>
+    </div>
+  </div>
+  <script src="{{ url_for('static', filename='js/common_functions.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/manage_child.js') }}">
+  </script>
+</html>

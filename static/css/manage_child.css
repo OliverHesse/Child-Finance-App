@@ -1,0 +1,46 @@
+html {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  align-items:center;
+  gap:30px;
+
+  background: linear-gradient(90deg, rgba(0, 240, 255, 1) 0%, rgba(0, 255, 163, 1) 100%);
+}
+button{
+  padding:0px;
+  background-color:rgba(62,185,255,90);
+  border-radius:25px;
+  border-width:2px;
+  border-style:solid;
+  width:150px;
+  height:30px;
+  font-size:1.2rem;
+  border-color:black;
+}
+
+button:hover{
+  background-color:rgba(22, 144, 215, 0.9);
+}
+.manage_label {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+#child_name_input {
+  font-size: 1.8rem;
+  border-width: 0px;
+  margin-left: 20px;
+  background-color: rgba(255 255 255 /60%);
+}
+.BtnContainer{
+  display:flex;
+  margin-top:50px;
+  justify-content:center;
+  gap:20px;
+}

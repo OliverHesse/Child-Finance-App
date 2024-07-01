@@ -1,0 +1,204 @@
+<!doctype html>
+<html>
+  <head>
+  <title>View Actions</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/view_actions.css') }}">
+  </head>
+  <body>
+    <button onclick="back()" class="base_btn" style="width:50px;height:30px;font-size:1.2rem;">Back</button>
+    <div id = "content_holder">
+   
+      <div id = "selector_holder">
+        <button onclick="change_view(this)" id="request_tab" class="tab_holder selected">Requests</button>
+        <button onclick="change_view(this)" id="transaction_tab" class="tab_holder">Transactions</button>
+      </div>
+      <hr class="underline"></hr>
+      <div style="font-size:1.3rem;padding:0px 150px 0px 150px;">
+        <button id="filterBtn"onclick="openChangeFilterModal()">
+          change Filters
+        </button>
+        <label for="OrderFilter">Order By: </label>
+        <select onchange="updateOrder(this)" name="OrderFilter"style="font-size:1.3rem;">
+          <option value="None">None</option>
+           <option value="Date">Date</option>
+           <option value="Total">Total</option>
+          
+        </select>
+        <label for="OrderDirection">Order Direction: </label>
+        <select id="OrderDirection"name="OrderDirection" onchange="updateDirection(this.value)"style="font-size:1.3rem;">
+           <option value="Asc">Asc</option>
+           <option value="Desc">Desc</option>
+        </select>
+      </div>
+    
+      <div id = "actions_holder">
+        <div id ="request_holder">
+          {% for request_i in range(0,actions["requests"]|length) %}
+          <div id = "{{request_i}}" class = "action">
+            <div id = "action_total" class = "action_text"> {{actions["requests"][request_i][6]}}</div>
+            <div id = "action_status" class = "action_text"> {{actions["requests"][request_i][4]}}</div>
+            <button onclick="openModal(this)" id = "MoreInfoBtn" class = "action_btn">More Info</button>
+          </div>
+          {% endfor %}
+        </div>
+        <div id ="transaction_holder">
+          {% for transaction_i in range(0,actions["transactions"]|length) %}
+          <div id = "{{transaction_i}}" class = "action">
+            <div id = "action_total" class = "action_text"> {{actions["transactions"][transaction_i][6]}}</div>
+            <div id = "action_status" class = "action_text"> {{actions["transactions"][transaction_i][4]}}</div>
+            <button onclick="openModal(this)"id = "MoreInfoBtn" class = "action_btn">More Info</button>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <hr class="underline"></hr>
+      <div id="create_btn_holder">
+        {% if user_type=="Child" %}
+        <button id="create_request_btn" onclick="OpenRequestModal(this)">Create Request</button>
+        {% endif %}
+        {% if user_type=="Parent" %}
+        <button id="create_request_btn" onclick="OpenRequestModal(this)">Add Funds</button>
+        {% endif %}
+      </div>
+    </div>
+
+    <div></div>
+    
+    <div class = "modal" id = "create_request_modal">
+      <div class = "modal-content">
+        <div style = "width:100%;display:flex; justify-content:right;"><button class="close-modal base_btn" onclick="closeModal(this)">Close</button></div>
+        {% if user_type=="Child" %}
+        <div id="create_Title" style="font-size:2.4rem;">Create Request</div>
+        {% endif %}
+        {% if user_type=="Parent" %}
+        <div id="create_Title" style="font-size:2.4rem;">Add Funds</div>
+        <label for="children">select a Child:</label>
+
+        <select class="input_field_base"name="children" id="children_select"style = "width:200px;height:30px;font-size:1.2rem;">
+          {% for key,val in children.items()%}
+            <option value="{{key}}">{{val}}</option>
+          {% endfor %}
+        </select> 
+        {% endif %}
+
+        <label for="account">select an account:</label>
+        <select class="input_field_base" name="account" id="account_select"style = "width:200px;height:30px;font-size:1.2rem;">
+          {% for key,val in accounts.items()%}
+            <option value="{{key}}">{{val}}</option>
+          {% endfor %}
+        </select> 
+        <label for="amount">Amount</label>  
+        <input name ="amount"id = "amount" style = "width:350px;height:40px;font-size:2.2rem;"class="input_field_base"></input>
+        <label for="notes">Notes</label>
+        <textarea name="notes" id ="notes"class="notes_input_field input_field_base"></textarea>
+        
+        {% if user_type == "Parent" %}
+      <button id="Parent"onclick="create_request(this)"class="create_request_btn request_modal_btn">Add Funds</button>
+        {% endif %}
+        {% if user_type == "Child" %}
+        <div class = "index_holder">
+        <button id="Child" onclick="create_request(this)"class="create_request_btn request_modal_btn">Create Request</button>
+        </div>
+        {% endif %}
+      
+      </div>
+    </div>
+    <div class = "modal" id = "change_filter_modal">
+      <div class = "modal-content">
+        <div style = "width:100%;display:flex; justify-content:right;"><button class="close-modal base_btn" onclick="closeModal(this)">Close</button></div>
+        
+          <div class="modal_label">Options</div>
+        <div style="display:flex;flex-direction:column;align-items:left;">
+          <div>
+            <input checked="true"  type="checkbox" id="insertionOption" name="insertionOption" value="insertion">
+            <label  class ="modal_label" for="insertion">insertion</label><br>
+          </div>
+          <div>
+            <input  checked="true" type="checkbox" id="paidOption" name="paidOption" value="paid">
+            <label  class ="modal_label" for="paid">paid</label><br>
+          </div>
+          <div>
+            <input checked="true" type="checkbox" id="pendingOption" name="pendingOption" value="pending">
+            <label  class ="modal_label" for="pending">pending</label><br>
+          </div>
+           <div>
+            <input checked="true" type="checkbox" id="deniedOption" name="deniedOption" value="denied">
+            <label  class ="modal_label"for="denied">denied</label><br>
+          </div>
+        </div>
+          <button class = "modal_actions base_btn" onclick="SetFilters()">Set Filters</button>
+          
+          
+    </div>
+    </div>
+    <div class = "modal" id = "more_info_modal">
+      <div class = "modal-content">
+        <div style = "width:100%;display:flex; justify-content:right;"><button class="close-modal base_btn" onclick="closeModal(this)">Close</button></div>
+        
+        <div style="font-size:2.4rem;">Action Details</div>
+        <div class ="modal_label" id="Date">Date:</div>
+        <div class ="modal_label" id="ModalParent">Parent:</div>
+        <div class ="modal_label" id="Mode_Child">Child:</div>
+        <div class ="modal_label" id="Modal_Account">Account:</div>
+        <div class ="modal_label" id="Amount">Amount:£<input class = "modal_input_form" type="text" id="amount_input_field">
+        </div>
+          
+        <div class ="modal_label" id="Type">Type:</div>
+        <div class ="modal_label" id="Status">State:</div>
+        <div class ="modal_label">Notes:</div>
+        <textarea id="notes_input_field" name="notes" class="modal_input_form">
+      
+        </textarea>
+        <div class = "modal_btn_box">
+          {% if user_type=="Child" %}
+          <button onclick = "edit_request(this)" id="editBtn" class = "modal_actions base_btn">Edit Request</button>
+          {% endif %}
+          {% if user_type=="Parent" %}
+          <button onclick="pay_request(this)" id="payBtn" class = "modal_actions base_btn" style="display:none;">Pay request</button>
+          <button id = "acceptBtn"class = "modal_actions base_btn" onclick="accept_request(this)">Accept Request</button>
+          <button  id = "denyBtn"class = "modal_actions base_btn" onclick="deny_request(this)">Deny Request</button>
+          {% endif %}
+        </div
+      </div>
+    
+
+
+    </div>
+  </body>
+
+      <script>
+        const user_type = {{user_type}};
+        const actions = {{actions|safe}};
+        const children = {{children|safe}};
+        const accounts = {{accounts|safe}};
+        const parent = "{{parent|safe}}"
+        console.log(actions)
+        function hideBtns(){
+          console.log("funciton called")
+          {% if user_type=="Parent" %}
+          document.getElementById("payBtn").style.display="none"
+          document.getElementById("acceptBtn").style.display="inline-block"
+          document.getElementById("denyBtn").style.display="inline-block"
+          {% endif %}
+          {% if user_type=="Child" %}
+          document.getElementById("editBtn").style.display="inline-block"
+          {% endif %}
+
+
+        }
+        function showBtns(){
+          console.log("funciton called")
+          {% if user_type=="Parent" %}
+          document.getElementById("payBtn").style.display="inline-block"
+          document.getElementById("acceptBtn").style.display="none"
+          document.getElementById("denyBtn").style.display="none"
+          {% endif %}
+          {% if user_type=="Child" %}
+          document.getElementById("editBtn").style.display="none"
+          {% endif %}
+
+        }
+      </script>
+      <script src="{{ url_for('static', filename='js/common_functions.js') }}"></script>
+      <script src="{{ url_for('static', filename='js/view_actions.js') }}"></script>
+</html>

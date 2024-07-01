@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>View Children</title>
+  <link href="{{ url_for('static', filename='css/manage.css') }}" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+   <button onclick="back()" class="base_btn" style="width:50px;height:30px;font-size:1.2rem;">Back</button>
+  <div id = "content_holder">
+    <div id = "selector_holder">
+      <button id="account_tab" class="tab_holder selected" onclick="change_tab(this)">Accounts</button>
+      {% if session["UserType"] == "Parent" %}
+      <button id="child_tab" class="tab_holder" onclick="change_tab(this)">Children</button>
+      {% endif %}
+      <button id="payment_tab" class="tab_holder" onclick="change_tab(this)">Reccuring Payments</button>
+    </div>
+    <hr class="underline"></hr>
+    <div style="font-size:1.3rem;padding:0px 150px 0px 150px;">
+      
+      <label for="OrderFilter">Order By: </label>
+      <select onchange="changeFilters(this.value)"name="OrderFilter"style="font-size:1.3rem;">
+        <option value="None">None</option>
+         <option value="Date">Date</option>
+         <option value="Total">Total</option>
+
+      </select>
+      <label for="OrderDirection">Order Direction: </label>
+      <select onchange="fixDirection(this.value)"name="OrderDirection" style="font-size:1.3rem;">
+         <option value="Asc">Asc</option>
+         <option value="Desc">Desc</option>
+      </select>
+    </div>
+    <div id = "holder">    
+      <div id = "child_holder" class = "actions_holder" style="display:none;">
+        {% for child_i in range(0,data["children"]|length) %}
+          <div id = "{{child_i}}" class = "child">
+            <div id = "child_name" class = "child_text manage_name_field"> {{data["children"][child_i]["Username"]}}</div>
+            <div id = "child_amount" class = "child_text manage_total_field">£{{data["children"][child_i]["Total"]}}</div>
+            <button id = "MoreInfoBtn" class = "child_btn" onclick="openModal(this)">More Info</button>
+          </div>
+        {% endfor %}
+      
+      </div>
+      <div id = "account_holder" class = "actions_holder" >
+        {% for account_i in range(0,data["accounts"]|length) %}
+          <div id = "{{account_i}}" class = "child">
+            <div id = "account_name" class = "child_text manage_name_field"> {{data["accounts"][account_i][2]}}</div>
+            <div id = "acccount_total" class = "child_text manage_total_field">£{{data["accounts"][account_i][6]}}</div>
+            {% if session["UserType"] == "Parent" %}
+            <button id = "ManageAccountBtn" class = "child_btn" onclick="manage_account_pressed(this)">Manage</button>
+            {% endif %}
+            <button id = "MoreInfoBtn" class = "child_btn" onclick="openModal(this)">More Info</button>
+          </div>
+        {% endfor %}
+    
+      </div>
+      <div id = "payment_holder" class = "actions_holder" style="display:none;">
+          {% for payment_i in range(0,data["payment"]|length) %}
+            <div id = "{{payment_i}}" class = "child">
+              <div id = "paymentName" class = "child_text manage_name_field"> {{data["payment"][payment_i][1]}}</div>
+              <div id = "paymentAmount" class = "child_text manage_total_field">£{{data["payment"][payment_i][4]}}</div>
+    
+              <button id = "MoreInfoBtn" class = "child_btn" onclick="openModal(this)">More Info</button>
+            </div>
+          {% endfor %}
+      </div>
+    </div>
+    <hr class="underline"></hr>
+    <div id="child_btn_holder">
+      {% if session["UserType"] == "Parent" %}
+      <button class = "add_btn" id="add_child_btn" onclick="AddChild()" style="display:none;">Add Child</button>
+      <button class = "add_btn" id="add_account_btn" onclick="AddAccount()" >Add Account</button>
+      <button class = "add_btn" id="add_payment_btn" onclick="AddPayment()" style="display:none;">Add Payment</button>
+      {% endif %}
+    </div>
+  </div>
+  <div class = "modal">
+    <div class = "modal-content" id = "child_more_info_modal" style="display:none;">
+      
+       <div style = "width:100%;display:flex; justify-content:right;"><button class="close-modal base_btn" onclick="closeModal(this)">Close</button></div>
+        <div style="font-size:2.4rem;">Child Details</div>
+        <div class ="modal_label" id="Date">Date:</div>
+        <div class ="modal_label" id="Parent">Parent:{{session["Username"]}}</div>
+        <div class ="modal_label" id="Child">Child:</div>
+        <div class ="modal_label" id="Amount">Amount:£</div>
+        <label for="child_accounts" class="modal_label">Accounts:</label>
+        <textarea readonly id = "child_accounts"name = "child_accounts" class="modal_label child_accounts_display"></textarea>
+    </div>
+
+    <div class = "modal-content" id = "account_more_info_modal" style="display:none;">
+      <div style = "width:100%;display:flex; justify-content:right;"><button class="close-modal base_btn" onclick="closeModal(this)">Close</button></div>
+      <div style="font-size:2.4rem;">Account Details</div>
+      <div class ="modal_label" id="accountDate">Date:</div>
+      <div class ="modal_label" id="accountParent">Parent:</div>
+      <div class ="modal_label" id="accountTotal">Total:£</div>
+      <label for="account_children" class="modal_label">Children:</label>
+      <textarea readonly id = "account_children" name = "account_children" class="modal_label child_accounts_display"></textarea>
+      <label for="account_notes" class="modal_label">Notes:</label>
+      <textarea readonly id = "account_notes" name = "account_notes" class="modal_label child_accounts_display"></textarea>
+      
+    </div>
+
+    <div class = "modal-content" id = "payment_more_info_modal" style="display:none;">
+      <div style = "width:100%;display:flex; justify-content:right;"><button class="close-modal base_btn" onclick="closeModal(this)">Close</button></div>
+      <div style="font-size:2.4rem;">Payment Details</div>
+      <div class ="modal_label" id="paymentNameField">Name:</div>
+      <div class ="modal_label" id="paymentFrequency">Fequency:</div>
+      <div class ="modal_label" id="paymentTotal">Total:£</div>
+      <div class ="modal_label" id="paymentChild">Child:</div>
+      <div class ="modal_label" id="paymentAccount">Account:</div>
+      
+    
+      <label for="paymentNotes" class="modal_label">Notes:</label>
+      <textarea readonly id = "paymentNotes" name = "paymentNotes" class="modal_label child_accounts_display"></textarea>
+
+
+    </div>
+    
+  </div>
+    <script>
+      const data = {{data|safe}};
+      function change_btn(currentBtnId,newBtnId){
+        console.log("this function was called");
+        console.log(currentBtnId);
+        console.log(newBtnId)
+        {% if session["UserType"] == "Parent" %}
+        document.getElementById(currentBtnId).style.display = "none";
+        document.getElementById(newBtnId).style.display = "inline-block";
+        {% endif %}
+      }
+    </script>
+  <script src="{{ url_for('static', filename='js/common_functions.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/manage.js') }}"></script>
+</body>
+
+</html>
